@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Mad Lib Game</title>
+    <style>
+        body {
+            padding: 25px;
+        }
+    </style>
+</head>
+<body>
+    <form class="form" id="madLibForm">
+        <div class="form__title">Mad Lib Game</div>
+        <p class="form__description">
+            Welcome to the Mad Libs Game! In this fun and interactive game, you get to create hilarious and unpredictable stories by filling in blanks with your own words. 
+            Make sure to <em>Fill Out the Form</em> and <em>Generate Your Story</em> by clicking on the "Generate story button."
+            Get ready to laugh and be creative as you build your own Mad Libs adventure!
+        </p>
+        
+        <div class="form__item">
+            <label class="form__label" for="hero">Noun:</label>
+            <input class="form__input" type="text" id="hero" name="hero" placeholder="Type the name of the Hero" required>
+        </div>   
+        
+        <div class="form__item">
+            <label class="form__label" for="adjective1">Adjective:</label>
+            <input class="form__input" type="text" id="adjective1" name="adjective1" placeholder="Type an adjective word" required>
+        </div>
+
+        <div class="form__item">
+            <label class="form__label" for="pluralNoun1">Plural Noun:</label>
+            <input class="form__input" type="text" id="pluralNoun1" name="pluralNoun1" placeholder="Type a plural noun" required>
+        </div>
+        
+        <div class="form__item">
+            <label class="form__label" for="place">Place:</label>
+            <input class="form__input" type="text" id="place" name="place" placeholder="Type a name of a place" required>
+        </div>
+       
+        <div class="form__item">
+            <label class="form__label" for="verbPast">Verb (past tense):</label>
+            <input class="form__input" type="text" id="verbPast" name="verbPast" placeholder="Type a past verb" required>
+        </div>
+        
+        <div class="form__item">
+            <label class="form__label" for="adjective2">Adjective:</label>
+            <input class="form__input" type="text" id="adjective2" name="adjective2" placeholder="Type an adjective" required>
+        </div>
+        
+        <div class="form__item">
+            <label class="form__label" for="pluralNoun2">Plural Noun:</label>
+            <input class="form__input" type="text" id="pluralNoun2" name="pluralNoun2" placeholder="Type a plural noun" required>
+        </div>
+        
+        <div class="form__item">
+            <label class="form__label" for="verb">Verb:</label>
+            <input class="form__input" type="text" id="verb" name="verb" placeholder="Type a verb" required>
+        </div>
+        
+        <div class="form__item">
+            <label class="form__label" for="exclamation">Exclamation:</label>
+            <input class="form__input" type="text" id="exclamation" name="exclamation" placeholder="Type an exclamation word" required>
+        </div>
+        
+        <div class="form__item">
+            <label class="form__label" for="noun">Noun:</label>
+            <input class="form__input" type="text" id="noun" name="noun" placeholder="Type a noun" required>
+        </div>
+        
+        <div class="form__item">
+            <button class="form__btn" type="submit">Create Story</button>
+        </div>
+    </form>
+
+    <div id="result"></div>
+
+    <!-- Addendum Section -->
+    <div class="addendum">
+        <h2>Addendum</h2>
+        <p>
+            The process of creating the Mad Libs game involved several steps. Initially, I set up the server using Express.js and configured it to serve static files and handle POST requests. The HTML form was created with input fields for different word types required for the story.
+        </p>
+        <p>
+            In the <strong>HTML</strong> file, I used labels and input fields to guide the user in providing the necessary words. In the input fields, I included placeholders to ensure that the users had more guidance on how to complete the form. A submit button was included to send the form data to the server. In the <strong>CSS</strong> file, I applied styles to make the form visually appealing and easy to use. The addendum section was styled with a border, padding, and shadow to distinguish it from other content.
+        </p>
+        <p>
+            In the <strong>server.js</strong> file, I created a route to handle form submissions. The server processes the submitted words and integrates them into a pre-defined story template. The final story is sent back to the user as a response.
+        </p>
+        <p>
+            <strong>Challenges:</strong> One of the main challenges was ensuring that the server correctly parsed and incorporated the user input into the story. Debugging the server-side code and handling edge cases where users might submit incomplete data were also significant tasks.
+        </p>
+        <p>
+            <strong>Takeaways:</strong> This project reinforced the importance of thorough testing and error handling in web development. It also highlighted the power of combining HTML, CSS, and JavaScript to create interactive and user-friendly web applications.
+        </p>
+    </div>
+    <footer>
+        <p>Last updated: 
+            <span id="lastModified"></span>
+        </p>
+    </footer>
+
+    <script type="text/javascript">
+        document.getElementById('lastModified').textContent = document.lastModified;
+
+        document.getElementById('madLibForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/submit', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('result').innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
