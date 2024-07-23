@@ -2,23 +2,26 @@
 const express = require('express');
 const logger = require('morgan');
 const path = require('path');
-const server = express();
+
+/* const server = express(); */
+
+const app = express();
 
 // Middleware to parse URL-encoded bodies
-server.use(express.urlencoded({ extended: true }));
-server.use(logger('dev'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname,'../../public')));
 
 // Setup static page serving for all the pages in "public"
-const publicServedFilesPath = path.join(__dirname, 'public');
-server.use(express.static(publicServedFilesPath));
+/* const publicServedFilesPath = path.join(__dirname, 'public');
+server.use(express.static(publicServedFilesPath)); */
 
 // Route for displaying form (GET request)
-server.get('/ITC505/lab-7-copy/index.html', (req, res) => {
-  res.sendFile(path.join(publicServedFilesPath, 'index.html'));
-});
+// server.get('/ITC505/lab-7-copy/index.html', (req, res) => {
+//   res.sendFile(path.join(publicServedFilesPath, 'index.html'));
+// });
 
 // POST route to handle form submission
-server.post('/submit', (req, res) => {
+app.post('/.netlify/functions/submit', (req, res) => {
     const { hero, adjective1, pluralNoun1, place, verbPast, adjective2, pluralNoun2, verb, exclamation, noun } = req.body;
 
     // Check if all fields are filled out
@@ -44,7 +47,10 @@ server.post('/submit', (req, res) => {
 });
 
 // Start the server
-const PORT = 3000;
+/* const PORT = 3000;
 server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
+ */
+
+module.exports.handler = serverless(app);
