@@ -1,4 +1,11 @@
+
 {
+    "name": "your-project-name",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "echo 'No build step' && exit 0",
+      "start": "node netlify/functions/submit.js"
+    },
   "dependencies": {
     "express": "^4.19.2",
     "morgan": "^1.10.0",
